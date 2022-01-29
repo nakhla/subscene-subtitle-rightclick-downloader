@@ -3,6 +3,8 @@ Simple yet powerful utility to download your movies subtitles by just right clic
 it is intelligent enough to guess the movie title from its filename.
 it provides two modes, silent mode without any prompt (iam lucky) and select mode.
 it download subtitles in Arabic language and it can easily edited to your preferred language
+
+![Select Mode](https://i.imgur.com/fNW0O4w.gif)
 ## Installation
 
  * download files or clone repo via git `git clone https://github.com/nakhla/subscene-subtitle-rightclick-downloader.git`
