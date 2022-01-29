@@ -1,0 +1,4 @@
+requests==2.27.1
+questionary==1.10.0
+guessit==3.4.3
+beautifulsoup4==4.10.0
