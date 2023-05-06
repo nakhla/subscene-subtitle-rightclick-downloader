@@ -1,4 +1,4 @@
-import requests, zipfile, io, sys, os, time
+import cloudscraper, zipfile, io, sys, os, time
 from guessit import guessit
 from bs4 import BeautifulSoup
 
@@ -16,12 +16,14 @@ def subtitles_downloader():
         #replacing spaces with hyphen to get valid link
         legal_movie_name = movie_name.replace(" ","-")
 
-        #now getting the page for Movie Subtitles in Arabic
-        url = requests.get('https://www.subscene.com/subtitles/'+legal_movie_name+"/arabic")
+        #now getting the page for Movie Subtitles in Arabic using scraper instead of requests
+        scraper = cloudscraper.create_scraper()
+        url = scraper.get('https://www.subscene.com/subtitles/'+legal_movie_name+"/arabic")
+        # url = requests.get('https://www.subscene.com/subtitles/'+legal_movie_name+"/arabic")
         if url.status_code != 200:
             legal_movie_name = legal_movie_name +'-'+ str(movie_year)
             time.sleep(2)
-            url = requests.get('https://www.subscene.com/subtitles/'+legal_movie_name+"/arabic")
+            url = scraper.get('https://www.subscene.com/subtitles/'+legal_movie_name+"/arabic")
 
         url_soup = BeautifulSoup(url.content,'html.parser')
 
@@ -32,7 +34,7 @@ def subtitles_downloader():
 
         #selecting first link from the list
         sub_link = 'https://www.subscene.com/'+urls[0]
-        sub_url = requests.get(sub_link)
+        sub_url = scraper.get(sub_link)
         sub_url_soup = BeautifulSoup(sub_url.content,'html.parser')
 
         #accessing the download button and getting download link.
@@ -41,7 +43,7 @@ def subtitles_downloader():
         download_link = 'https://www.subscene.com/'+dl_link
 
         #getting .srt files from the link using requests.
-        r = requests.get(download_link)
+        r = scraper.get(download_link)
         z = zipfile.ZipFile(io.BytesIO(r.content))
         # z.extractall('ccc')
         zipinfos = z.infolist()
@@ -50,7 +52,7 @@ def subtitles_downloader():
             z.extract(zipinfo)
 
         #printing confirmation message.
-        print("Subtitles Downloaded.Check The Folder where this python file is stored.")
+        print("Subtitle downloaded successfully!")
 
     #handling exception where subtitles are not found
     except IndexError:
